@@ -1,4 +1,8 @@
 {
+  "editor.formatOnSave": true,
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }
