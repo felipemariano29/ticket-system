@@ -13,7 +13,7 @@ services:
       - 8004:8004
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: localhost
+      KONG_PG_HOST: db
       KONG_PG_DATABASE: kong
       KONG_PG_USER: kong
       KONG_PG_PASSWORD: kong
@@ -28,7 +28,6 @@ services:
 
   db:
     image: postgres:13-alpine
-    network_mode: "host"
     ports:
       - 5432:5432
     environment:
@@ -40,17 +39,21 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   kong-migrations:
     image: kong:3.7
     command: kong migrations bootstrap
-    network_mode: "host"
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: localhost
-      KONG_PG_DATABASE: kong
-      KONG_PG_USER: kong
-      KONG_PG_PASSWORD: kong
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: db
+      KONG_PG_DATABASE: kong
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+
+volumes:
+  pgdata:
