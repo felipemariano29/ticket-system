@@ -1,6 +1,8 @@
 package usecase
 
-import "github.com/felipemariano29/ticket-system/golang-api/internal/events/domain"
+import (
+	"github.com/felipemariano29/ticket-system/golang-api/internal/events/domain"
+)
 
 type GetEventInputDTO struct {
 	ID string
@@ -28,7 +30,6 @@ func NewGetEventUseCase(repo domain.EventRepository) *GetEventUseCase {
 
 func (uc *GetEventUseCase) Execute(input GetEventInputDTO) (*GetEventOutputDTO, error) {
 	event, err := uc.repo.FindEventByID(input.ID)
-
 	if err != nil {
 		return nil, err
 	}

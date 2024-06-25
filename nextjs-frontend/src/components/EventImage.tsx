@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 export type EventImageProps = {
-  src: string;
-  alt: string;
+    src: string;
+    alt: string;
 };
 
 export function EventImage(props: EventImageProps) {

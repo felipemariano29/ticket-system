@@ -1,22 +1,25 @@
 import Link from "next/link";
-import { Title } from "@/components/Title";
-import { EventModel, SpotModel } from "@/models";
-import { SpotSeat } from "@/components/SpotSeat";
-import { cookies } from "next/headers";
+import { Title } from "../../../../components/Title";
+import { EventModel, SpotModel } from "../../../../models";
+import { SpotSeat } from "../../../../components/SpotSeat";
 import { TicketKindSelect } from "./TicketKindSelect";
-import { EventImage } from "@/components/EventImage";
+import { cookies } from "next/headers";
+import { EventImage } from "../../../../components/EventImage";
 
 export async function getSpots(eventId: string): Promise<{
   event: EventModel;
   spots: SpotModel[];
 }> {
   const response = await fetch(
-    `http://localhost:8080/events/${eventId}/spots`,
+    `${process.env.GOLANG_API_URL}/events/${eventId}/spots`,
     {
+      headers: {
+        "apikey": process.env.GOLANG_API_TOKEN as string
+      },
       cache: "no-store",
       next: {
         tags: [`events/${eventId}`],
-      },
+      }
     }
   );
 
@@ -64,7 +67,7 @@ export default async function SpotsLayoutPage({
 
   const cookieStore = cookies();
   const selectedSpots = JSON.parse(cookieStore.get("spots")?.value || "[]");
-  let totalPrice = selectedSpots.length * Number(event.price);
+  let totalPrice = selectedSpots.length * event.price;
   const ticketKind = cookieStore.get("ticketKind")?.value || "full";
 
   if (ticketKind === "half") {
@@ -163,7 +166,7 @@ export default async function SpotsLayoutPage({
           <div className="flex flex-col">
             <TicketKindSelect
               defaultValue={ticketKind as any}
-              price={Number(event.price)}
+              price={event.price}
             />
           </div>
           <div>Total: {formattedTotalPrice}</div>

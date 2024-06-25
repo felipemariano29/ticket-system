@@ -40,13 +40,7 @@ app.get("/events/:eventId/spots", async (req, res) => {
 });
 
 app.post("/checkout", async (req, res) => {
-  const {
-    event_id,
-    card_hash,
-    ticket_kind,
-    spots: spotsName,
-    email,
-  } = req.body;
+  const { event_id, card_hash, ticket_kind, spots: spotsName, email } = req.body;
   console.log(req.body);
   const event = events.find((event) => event.id == event_id);
   if (!event) {
@@ -77,7 +71,7 @@ app.post("/checkout", async (req, res) => {
   const eventSpots = spots.filter((spot) => spot.event_id == event_id);
   for (const spotName of spotsName) {
     const spotIndex = eventSpots.findIndex((s) => s.name === spotName);
-
+    
     if (spotIndex === -1) {
       return res.status(400).json({
         message: `Spot ${spot.id} not found`,

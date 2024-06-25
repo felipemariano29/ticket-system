@@ -14,11 +14,11 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        primary: "rgba(24, 30, 26, 1)",
+        primary: "rgba(25, 30, 36, 1)",
         secondary: "#2A323C",
         bar: "#1D232A",
         "btn-primary": "#7480FF",
-        input: "#1D232A",
+        input: "#1d232a",
       },
       textColor: {
         default: "#a6adbb",

@@ -21,19 +21,16 @@ func NewListSpotsUseCase(repo domain.EventRepository) *ListSpotsUseCase {
 
 func (uc *ListSpotsUseCase) Execute(input ListSpotsInputDTO) (*ListSpotsOutputDTO, error) {
 	event, err := uc.repo.FindEventByID(input.EventID)
-
 	if err != nil {
 		return nil, err
 	}
 
 	spots, err := uc.repo.FindSpotsByEventID(input.EventID)
-
 	if err != nil {
 		return nil, err
 	}
 
 	spotDTOs := make([]SpotDTO, len(spots))
-
 	for i, spot := range spots {
 		spotDTOs[i] = SpotDTO{
 			ID:       spot.ID,
